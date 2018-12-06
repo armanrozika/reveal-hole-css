@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        body{
+            perspective: 1000px;
+        }
+        .box{
+            width: 500px;
+            height: 500px;
+            background: seagreen;
+          
+            transition: all 100ms ease;
+            box-shadow: 3px 3px 30px #000;
+        }
+
+        .box-parent{
+            width: 500px;
+            height: 500px;
+            margin-top: 200px;
+            margin-left: 500px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <p id="x"></p>
+    <p id="y"></p>
+    <p id="box-width"></p>
+    <p id="box-height"></p>
+    <div class="box-parent">
+        <div class="box"></div>
+    </div>
+    
+    
+
+    <script>
+        window.addEventListener('load', ()=>{
+            const box = document.querySelector('.box');
+            const boxParent = document.querySelector('.box-parent')
+            let xCenter = document.querySelector('.box-parent').offsetLeft + document.querySelector('.box-parent').offsetWidth / 2;
+            let yCenter = document.querySelector('.box-parent').offsetTop + document.querySelector('.box-parent').offsetHeight / 2;
+
+           
+
+            boxParent.addEventListener('mousemove', (e)=>{
+                if(xCenter<e.clientX && yCenter<e.clientY){
+                    let transformX = e.clientX - xCenter;
+                    let transformY = e.clientY - yCenter;
+                    box.style.transform = `rotateY(${transformX/10}deg) rotateX(-${transformY/10}deg)`
+                }else if(xCenter<e.clientX && yCenter > e.clientY){
+                    let transformX = e.clientX - xCenter;
+                    let transformY = yCenter - e.clientY;
+                    box.style.transform = `rotateY(${transformX/10}deg) rotateX(${transformY/10}deg)`
+                }else if(xCenter>e.clientX && yCenter>e.clientY){
+                    let transformX = xCenter - e.clientX;
+                    let transformY = yCenter - e.clientY;
+                    box.style.transform = `rotateY(-${transformX/10}deg) rotateX(${transformY/10}deg)`
+                }else if(xCenter > e.clientX && yCenter < e.clientY){
+                    let transformX = xCenter - e.clientX;
+                    let transformY = e.clientY - yCenter;
+                    box.style.transform = `rotateY(-${transformX/10}deg) rotateX(-${transformY/10}deg)`
+                }
+
+            });
+
+            boxParent.addEventListener('mouseleave', ()=>{
+                box.style.transform = 'none'
+            });
+
+            
+        })
+       
+    </script>
+</body>
+</html>
